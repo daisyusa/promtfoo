@@ -1,0 +1,118 @@
+# Running an example
+
+npm install -g promptfoo
+promptfoo init --example getting-started
+
+This will create a new directory with a basic example that tests translation prompts across different models. The example includes:
+
+A configuration file promptfooconfig.yaml with sample prompts, providers, and test cases.
+A README.md file explaining how the example works.
+
+Github repo
+https://github.com/promptfoo/promptfoo/tree/main/examples/getting-started
+
+Then navigate to the example directory, run the eval, and view results:
+cd getting-started
+promptfoo eval
+promptfoo view
+
+# Set up via the CLI
+
+To start from scratch, run promptfoo init to create a config through an interactive CLI walkthrough:
+promptfoo init
+
+# Set up via the Web UI
+If you prefer a visual interface, run promptfoo eval setup to configure your first eval through the web UI:
+promptfoo eval setup
+
+This opens a browser-based setup flow that walks you through creating prompts, choosing providers, and adding test cases.
+
+# Configuration
+1: Set up your prompts: 
+
+https://www.promptfoo.dev/docs/configuration/prompts/
+Common Patterns
+System + User Message
+[
+  { "role": "system", "content": "You are {{role}}" },
+  { "role": "user", "content": "{{query}}" }
+]
+
+Few-Shot Examples
+prompts:
+  - |-
+    Classify the sentiment:
+
+    Text: "I love this!" → Positive
+    Text: "This is terrible" → Negative
+    Text: "{{text}}" →
+
+Chain of Thought
+prompts:
+  - |-
+    Question: {{question}}
+
+    Let's think step by step:
+    1. First, identify what we know
+    2. Then, determine what we need to find
+    3. Finally, solve the problem
+
+    Answer:
+
+Viewing Final Prompts
+To see the final rendered prompts:
+
+Run promptfoo view
+Enable Table Settings > Show full prompt in output cell
+
+2: Add providers:
+https://www.promptfoo.dev/docs/providers/
+
+3: Add test inputs: 
+Add some example inputs for your prompts. Optionally, add assertions to set output requirements that are checked automatically.
+
+4: Run the evaluation:
+5: Review outputs:
+
+# Asserts
+The YAML configuration format runs each prompt through a series of test cases and checks if they meet the specified asserts.
+
+Asserts are optional. Many people get value out of reviewing outputs manually, and the web UI helps facilitate this.
+
+# Examples
+
+1: Prompt quality
+In this example, we evaluate whether adding adjectives to the personality of an assistant bot affects the responses.
+
+promptfoo init --example eval-self-grading
+
+Gitrepo https://github.com/promptfoo/promptfoo/tree/main/examples/eval-self-grading
+
+2: Model quality
+In this next example, we evaluate GPT-6 Luna, Sol, and Astra on 15 riddles, each with an answer check. The full run makes 45 model calls plus grading calls. 
+Cost and latency assertions check completed responses; they do not cap spending or stop slow requests.
+
+Gitrepo: https://github.com/promptfoo/promptfoo/tree/main/examples/compare-openai-models
+
+promptfoo init --example compare-openai-models
+
+Navigate to the newly created directory and run npx promptfoo@latest eval or promptfoo eval. Also note that you can override parameters directly from the command line.
+promptfoo eval -r google:gemini-3.8-flash google:gemini-3.5-flash-lite
+
+3: RAG quality
+In this example, we evaluate whether RAG outputs are factual, relevant, and grounded in the retrieved context
+promptfoo init --example eval-rag
+From the newly created directory, run npx promptfoo@latest eval or promptfoo eval to grade outputs on factuality, answer relevance, context recall, context relevance, and context faithfulness
+
+Gitrepo : https://github.com/promptfoo/promptfoo/tree/main/examples/eval-rag
+
+4: Agent quality
+In this example, we evaluate an OpenAI Agents SDK workflow that uses tools for dice rolls, inventory checks, scene descriptions, and character stats.
+
+You can quickly set up this example by running:
+promptfoo init --example openai-agents-basic
+Gitrepo: https://github.com/promptfoo/promptfoo/tree/main/examples/openai-agents-basic
+
+
+
+
