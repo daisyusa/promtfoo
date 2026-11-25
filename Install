@@ -1,0 +1,19 @@
+# Installation
+
+nvm install 24
+nvm use 24
+npm install -g promptfoo
+promptfoo --version
+
+# Run Promptfoo
+
+promptfoo init
+
+This will guide you through the process of creating a promptfooconfig.yaml file.
+
+# Uninstall Promptfoo
+
+npm uninstall -g promptfoo
+which -a promptfoo
+rm -rf ~/.promptfoo
+
