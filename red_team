@@ -1,0 +1,82 @@
+
+https://www.promptfoo.dev/docs/red-team/quickstart/
+
+Getting started
+Promptfoo is an open-source tool for red teaming gen AI applications.
+
+Automatically scans 50+ vulnerability types:
+Security & data privacy: jailbreaks, injections, RAG poisoning, etc.
+Compliance & ethics: harmful & biased content, content filter validation, OWASP/NIST/EU compliance, etc.
+Custom policies: enforce organizational guidelines.
+Generates dynamic attack probes tailored to your application using specialized uncensored models.
+Includes adversarial ML techniques from Microsoft, Meta, and others.
+Integrates with CI/CD.
+Tests via HTTP API, browser, or direct model access.
+
+Initialize the project
+npm install -g promptfoo
+promptfoo redteam setup
+The setup command will open a web UI that asks questions to help you configure your red teaming project.
+Provide application details
+Start by providing some details about the target application. The more details we provide, the more tailored the generated test cases will be.
+At a minimum, be sure to fill out the Purpose field with a description of your application.
+
+Configure the target
+Next, configure Promptfoo to communicate with your target application or model.
+Provider cards populate an editable target ID and configuration. Choose a hosted model available to your account, or enter your own deployment, served model, or Bedrock agent and alias IDs.
+For llamafile, vLLM, and Text Generation WebUI, keep the openai:chat: prefix, enter the server's model name, and set apiBaseUrl including /v1. If your server requires authentication, set apiKeyEnvar to the name of an environment variable on the machine running Promptfoo. The native llama.cpp provider uses llama: and reads its server URL from LLAMA_BASE_URL on the machine running Promptfoo.
+note
+The target defines the model being tested. Attack generation uses a separate provider (defaults to OpenAI). See Providers to configure a custom attack model.
+Because the Promptfoo scanner runs locally on your machine, it can attack any endpoint accessible from your machine or network.
+
+Select plugins
+Next, select the plugins that you want to use. Plugins are adversarial generators. They produce malicious inputs that are sent to your application.
+Check off the individual plugins you want to use, or select a preset that includes a combination of plugins (if in doubt, stick with "Default").
+
+Select attack strategies
+Now we select strategies. Strategies are techniques that wrap the generated inputs in a specific attack pattern.
+
+Review and save
+Finally, download the generated configuration file. You'll use this to run the red team from your local machine.
+Save the file as promptfooconfig.yaml. Then, navigate to the directory where you saved the file and run promptfoo redteam run.
+
+If you don't want to use the UI to start a red team, you can use the init command instead:
+promptfoo redteam init --no-gui
+
+Run the scan
+Now that we've generated the test cases, we're ready to run the adversarial evaluation.
+
+promptfoo redteam run
+
+This command will generate several hundred adversarial inputs across many categories of potential harm and save them in redteam.yaml. Then, it will run the test cases against the target.
+
+View the results
+promptfoo redteam report
+Promptfoo provides a report view that lets you dig into specific red team failure cases:
+That view includes a breakdown of specific test types that are connected to the eval view:
+Clicking into a specific test case to view logs will display the raw inputs and outputs:
+Understanding the report view
+The red teaming results provide insights into various aspects of your LLM application's behavior:
+
+Vulnerability categories: Identifies the types of vulnerabilities discovered, such as prompt injections, context poisoning, or unintended behaviors.
+Severity levels: Classifies vulnerabilities based on their potential impact and likelihood of occurrence.
+Logs: Provides concrete instances of inputs that triggered vulnerabilities.
+Suggested mitigations: Recommendations for addressing identified vulnerabilities, which may include prompt engineering, additional safeguards, or architectural changes.
+
+Common target types
+Attacking an API endpoint
+The configuration file includes a description of the target endpoint. You can edit the config to make changes to the target.
+Alternative: Test specific prompts and models
+If you don't have a live endpoint, you can edit the config to set the specific prompt(s) and the LLM model(s) to test:
+
+Alternative: Talking directly to your app
+Promptfoo hooks directly into your existing LLM app to attack targets via Python, Javascript, RAG or agent workflows, HTTP API, and more
+
+Continuous improvement
+Rerun red team tests after changes to prompts, models, tools, or guardrails. Compare failures and attack success rates with previous runs to identify regressions
+
+
+
+
+
+
